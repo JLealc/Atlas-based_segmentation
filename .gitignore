@@ -1,0 +1,5 @@
+*.nii
+*.txt
+/elastix-5.0.0-win64
+*.nii.gz
+elastix-5.0.0-win64/

@@ -1,0 +1,81 @@
+
+transformix is started at Mon Nov  6 17:05:13 2023.
+
+which transformix:   transformix.exe
+transformix runs at: DESKTOP-M7E2H4U
+  Windows  Personal (x64),  (Build 9200)
+  with 20220 MB memory, and 4 cores @ 1497 MHz.
+Running transformix with parameter file "F:\MAIA\third semester\4. MIRA\Atlas-based_segmentation\registration_results\1002\TransformParameters.0.txt".
+
+Reading the elastix parameters from file ...
+
+Installing all components.
+InstallingComponents was successful.
+
+ELASTIX version: 5.000
+Command line options from ElastixBase:
+-in       F:\MAIA\third semester\4. MIRA\Atlas-based_segmentation\training-set\training-set\training-images\1002.nii.gz
+-out      F:\MAIA\third semester\4. MIRA\Atlas-based_segmentation\registration_results\1002\
+-threads  unspecified, so all available threads are used
+-tp       F:\MAIA\third semester\4. MIRA\Atlas-based_segmentation\registration_results\1002\TransformParameters.0.txt
+-def      unspecified, so no input points transformed
+-jac      unspecified, so no det(dT/dx) computed
+-jacmat   unspecified, so no dT/dx computed
+
+=============== start of ParameterFile: F:\MAIA\third semester\4. MIRA\Atlas-based_segmentation\registration_results\1002\TransformParameters.0.txt ===============
+(Transform "AffineTransform")
+(NumberOfParameters 12)
+(TransformParameters 0.964373 0.001985 -0.000934 -0.004119 0.933733 -0.037908 0.005005 0.000172 0.930340 -35.794215 12.288165 0.476522)
+(InitialTransformParametersFileName "NoInitialTransform")
+(UseBinaryFormatForTransformationParameters "false")
+(HowToCombineTransforms "Compose")
+
+// Image specific
+(FixedImageDimension 3)
+(MovingImageDimension 3)
+(FixedInternalImagePixelType "float")
+(MovingInternalImagePixelType "float")
+(Size 256 287 256)
+(Index 0 0 0)
+(Spacing 1.0000000000 1.0000000000 1.0000000000)
+(Origin -127.5000000000 127.5000000000 -143.0000000000)
+(Direction 1.0000000000 0.0000000000 0.0000000000 0.0000000000 -1.0000000000 0.0000000000 0.0000000000 0.0000000000 1.0000000000)
+(UseDirectionCosines "true")
+
+// AdvancedAffineTransform specific
+(CenterOfRotationPoint 0.0000000000 -15.5000000000 -15.5000000000)
+
+// ResampleInterpolator specific
+(ResampleInterpolator "FinalBSplineInterpolator")
+(FinalBSplineInterpolationOrder 3)
+
+// Resampler specific
+(Resampler "DefaultResampler")
+(DefaultPixelValue 0.000000)
+(ResultImageFormat "mhd")
+(ResultImagePixelType "short")
+(CompressResultImage "false")
+
+
+=============== end of ParameterFile: F:\MAIA\third semester\4. MIRA\Atlas-based_segmentation\registration_results\1002\TransformParameters.0.txt ===============
+
+
+Reading input image ...
+  Reading input image took 0.321344 s
+Calling all ReadFromFile()'s ...
+  Calling all ReadFromFile()'s took 0.000921 s
+Transforming points ...
+  The command-line option "-def" is not used, so no points are transformed
+  Transforming points done, it took 0.00s
+Compute determinant of spatial Jacobian ...
+  The command-line option "-jac" is not used, so no det(dT/dx) computed.
+  Computing determinant of spatial Jacobian done, it took 0.00s
+Compute spatial Jacobian (full matrix) ...
+  The command-line option "-jacmat" is not used, so no dT/dx computed.
+  Computing spatial Jacobian done, it took 0.00s
+Resampling image and writing to disk ...
+  Resampling took 4.52s
+
+transformix has finished at Mon Nov  6 17:05:17 2023.
+Total time elapsed: 5.0s.
+
