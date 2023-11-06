@@ -1,3 +1,7 @@
 *.nii
 *.nii.gz
-
+/atlas
+/elastix-5.0.0-win64
+/registration_results
+/testing_results
+/transformed_labels
