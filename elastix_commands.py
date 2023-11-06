@@ -42,7 +42,7 @@ for image_id in image_ids:
         print(f"Errors for image {image_id}:", stderr.decode())
 
 # ---------------------------------------------------------------------------------------------------------------------
-# STEP 2: Registration
+# STEP 2: Transformation
 
 # Paths
 training_labels_folder = 'C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/training-set/training-set/training-labels/'
