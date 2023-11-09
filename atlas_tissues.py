@@ -121,30 +121,34 @@ def atlas_probabilities(export_option):
     elif export_option == 'return':
         return prob_atlas_csf, prob_atlas_wm, prob_atlas_gm
 
-def intensity_probabilities(volume_path, mask_path):
-    # Load Volume/Mask and convert to the desired data type
-    volume = np.array(sitk.GetArrayFromImage(sitk.ReadImage(volume_path, sitk.sitkFloat32)), dtype=np.int16)
-    mask_array = np.array(sitk.GetArrayFromImage(sitk.ReadImage(mask_path)), dtype=np.bool)
-    masked_volume = volume * mask_array
-    
-    # Initialize a list for tissue models and their file paths
-    tissue_files = ['tissueModel_CSF.npy', 'tissueModel_WM.npy', 'tissueModel_GM.npy']
-    base_path = 'C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/atlas/'
-    
-    # Load tissue models, calculate histograms, and probability distributions
-    histograms = []
-    for tissue_file in tissue_files:
-        tissue_model = np.load(base_path + tissue_file).astype(np.int16)
-        hist, _ = np.histogram(tissue_model, bins=5000, range=(0, 5000))
-        histograms.append(hist)
-    
-    # Calculate the sum of histograms for normalization
-    sum_histograms = np.sum(histograms, axis=0)
-    
-    # Calculate and normalize probability distributions using vectorization
-    prob_distributions = [np.nan_to_num(hist / sum_histograms) for hist in histograms]
-    
-    # Create Intensity Probability Images
-    int_prob_csf, int_prob_wm, int_prob_gm = [prob[masked_volume] for prob in prob_distributions]
-    
-    return int_prob_csf, int_prob_wm, int_prob_gm
+def create_combined_atlas(csf_atlas_path, wm_atlas_path, gm_atlas_path, combined_atlas_path):
+    # Read the atlas images and remove any singleton dimensions
+    csf_atlas = sitk.GetArrayFromImage(sitk.ReadImage(csf_atlas_path)).squeeze()
+    wm_atlas = sitk.GetArrayFromImage(sitk.ReadImage(wm_atlas_path)).squeeze()
+    gm_atlas = sitk.GetArrayFromImage(sitk.ReadImage(gm_atlas_path)).squeeze()
+
+    # Check if all atlas images have the same shape after squeezing
+    if not (csf_atlas.shape == wm_atlas.shape == gm_atlas.shape):
+        raise ValueError("The input atlas images must have the same dimensions.")
+
+    # Initialize the combined atlas
+    combined_atlas = np.zeros_like(csf_atlas)
+
+    # Fill the combined atlas with weighted values (You may change these as needed)
+    combined_atlas += csf_atlas * 1  # Weight for CSF
+    combined_atlas += wm_atlas * 2  # Weight for WM
+    combined_atlas += gm_atlas * 3  # Weight for GM
+
+    # Normalize the combined atlas if needed (for example, to a range of 0-255)
+    combined_atlas = ((combined_atlas - combined_atlas.min()) * (255.0 / (combined_atlas.max() - combined_atlas.min()))).astype(np.uint8)
+
+    # Convert the numpy array back to a SimpleITK Image
+    combined_atlas_image = sitk.GetImageFromArray(combined_atlas.astype(np.uint8))
+
+    # Copy the metadata from the reference image
+    reference_image = sitk.ReadImage(csf_atlas_path)
+    combined_atlas_image.CopyInformation(reference_image)
+
+    # Save the combined atlas
+    sitk.WriteImage(combined_atlas_image, combined_atlas_path)
+

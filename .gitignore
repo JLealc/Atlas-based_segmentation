@@ -5,3 +5,9 @@
 /registration_results
 /testing_results
 /transformed_labels
+/ilustrations
+/__pycache__
+/MNITemplateAtlas
+/plots
+/training-set
+/transformed_labels

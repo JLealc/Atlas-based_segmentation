@@ -1,16 +1,21 @@
 import SimpleITK as sitk
 import numpy as np
 import matplotlib.pyplot as plt
-from atlas_tissues import atlas_probabilities, tissue_models
+from atlas_tissues import atlas_probabilities, tissue_models, create_combined_atlas
 
 # Paths
 atlas_path = 'C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/atlas/'
 tissue_model_paths = [f'{atlas_path}tissueModel_CSF.npy', f'{atlas_path}tissueModel_WM.npy', f'{atlas_path}tissueModel_GM.npy']
+csf_atlas_path = "C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/atlas/prob_atlas_CSF.nii"
+wm_atlas_path = "C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/atlas/prob_atlas_WM.nii"
+gm_atlas_path = "C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/atlas/prob_atlas_GM.nii"
+combined_atlas_path = "C:/Users/Administrador/Documents/0. MAIA/3. Spain/4.MIRA/Lab2/Atlas-based_segmentation/atlas/combined_atlas.nii"
 
 # ---------------------------------------------------------------------------------------------------------------------
-# STEP 1: Generate Probability Atlas
+# STEP 1: Generate Probability Atlas / Combined atlas
 print("Executing label propagation via probability atlases...")
 atlas_probabilities(export_option='return')
+create_combined_atlas(csf_atlas_path, wm_atlas_path, gm_atlas_path, combined_atlas_path)
 print("Label propagation via probability atlases completed.")
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -57,9 +62,10 @@ bins = np.histogram(CSF, **hist_params)[1]
 bin_width = bins[1] - bins[0]
 
 for tissue, color in zip(iTP_normalized, ['red', 'green', 'blue']):
-    plt.bar(bins[:-1], tissue, width=bin_width, alpha=0.75, color=color)
+    plt.bar(bins[:-1], tissue, width=bin_width, alpha=0.75, color=color, fill=False)
 
 plt.xlabel('Intensity Values')
 plt.ylabel('Probability')
 plt.legend(['CSF', 'WM', 'GM'], loc='upper right')
 plt.show()
+
